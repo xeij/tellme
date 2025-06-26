@@ -1,0 +1,65 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# User-generated database (users should fetch their own content)
+tellme_data/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Windows specific
+*.exe
+*.dll
+*.pdb
+
+# macOS specific
+.AppleDouble
+.LSOverride
+
+# Linux specific
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache 

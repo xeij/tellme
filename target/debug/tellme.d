@@ -1,1 +1,0 @@
-C:\Users\xeij\Desktop\tellme\target\debug\tellme.exe: C:\Users\xeij\Desktop\tellme\src\content.rs C:\Users\xeij\Desktop\tellme\src\database.rs C:\Users\xeij\Desktop\tellme\src\lib.rs C:\Users\xeij\Desktop\tellme\src\main.rs C:\Users\xeij\Desktop\tellme\src\ui.rs

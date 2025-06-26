@@ -187,8 +187,8 @@ async fn fetch_topic_content(
             break;
         }
         
-        // Search for articles (increased limit for more variety)
-        let article_titles = client.search_articles(query, 25).await?;
+        // Search for articles (massive limit increase for 10x content variety)
+        let article_titles = client.search_articles(query, 50).await?;
         
         for title in article_titles {
             if total_units >= target_count {
@@ -271,8 +271,9 @@ async fn main() -> Result<()> {
     // Create Wikipedia client
     let client = WikipediaClient::new();
     
-    // Target number of units per topic (increased for more variety)
-    let units_per_topic = 55; // This will give us 250 total units
+    // Target number of units per topic (MASSIVE INCREASE for 10x expansion!)
+    // With 30+ topics, this will give us 5000+ total units (10x the original goal)
+    let units_per_topic = 150; // 30 topics × 150 units = 4500+ total units
     let mut total_fetched = 0;
     
     // Fetch content for each topic
