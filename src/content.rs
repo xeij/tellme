@@ -43,16 +43,65 @@ impl Topic {
     /// This demonstrates pattern matching with match expressions
     pub fn search_queries(&self) -> &'static [&'static str] {
         match self {
-            Topic::Facts => &["Amazing facts", "Interesting trivia", "Did you know", "Fun facts"],
-            Topic::History => &["Historical events", "Ancient history", "World history", "Historic mysteries"],
-            Topic::Philosophy => &["Philosophy", "Philosophical concepts", "Ancient philosophy", "Modern philosophy"],
-            Topic::Mysteries => &["Unsolved mysteries", "World mysteries", "Mysterious phenomena", "Unexplained events"],
-            Topic::Conspiracies => &["Conspiracy theories", "Alternative theories", "Controversial theories"],
-            Topic::Science => &["Scientific discoveries", "Science breakthroughs", "Modern science", "Scientific phenomena"],
-            Topic::Traditions => &["Cultural traditions", "World cultures", "Ancient traditions", "Folk traditions"],
-            Topic::Crimes => &["Unsolved crimes", "Famous crimes", "Criminal cases", "Mystery crimes"],
-            Topic::Civilizations => &["Ancient civilizations", "Lost civilizations", "Ancient cultures", "Archaeological discoveries"],
-            Topic::Psychology => &["Psychology", "Human behavior", "Psychological phenomena", "Cognitive science"],
+            Topic::Facts => &[
+                "World record", "Guinness World Records", "Strange phenomena", 
+                "Unusual animals", "Natural wonders", "Scientific facts",
+                "Human body facts", "Space facts", "Ocean mysteries",
+                "Animal behavior", "Plant adaptations", "Weather phenomena"
+            ],
+            Topic::History => &[
+                "World War", "Ancient Rome", "Medieval period", "Renaissance",
+                "Industrial Revolution", "Cold War", "Viking Age", "Mongol Empire",
+                "Byzantine Empire", "Ottoman Empire", "British Empire", "Spanish Empire",
+                "French Revolution", "American Civil War", "Russian Revolution"
+            ],
+            Topic::Philosophy => &[
+                "Socrates", "Plato", "Aristotle", "Descartes", "Kant", "Nietzsche",
+                "Existentialism", "Stoicism", "Buddhism philosophy", "Confucianism",
+                "Ethics", "Metaphysics", "Epistemology", "Logic", "Phenomenology"
+            ],
+            Topic::Mysteries => &[
+                "Bermuda Triangle", "Stonehenge", "Easter Island", "Nazca Lines",
+                "Crop circles", "Ball lightning", "Spontaneous human combustion",
+                "Voynich Manuscript", "Antikythera mechanism", "Shroud of Turin",
+                "Oak Island", "Bigfoot", "UFO sightings", "Ghost phenomena"
+            ],
+            Topic::Conspiracies => &[
+                "JFK assassination", "Moon landing conspiracy", "9/11 conspiracy",
+                "Area 51", "Illuminati", "New World Order", "Chemtrails",
+                "HAARP", "MKUltra", "Project Blue Book", "Roswell incident",
+                "Philadelphia Experiment", "Flat Earth", "QAnon"
+            ],
+            Topic::Science => &[
+                "DNA discovery", "Theory of relativity", "Quantum mechanics", "Evolution",
+                "Penicillin", "Vaccines", "Atomic theory", "Periodic table",
+                "Electromagnetic radiation", "Black holes", "Big Bang theory",
+                "Photosynthesis", "Genetics", "Stem cells", "CRISPR", "Antibiotics"
+            ],
+            Topic::Traditions => &[
+                "Japanese tea ceremony", "Diwali", "Day of the Dead", "Carnival",
+                "Chinese New Year", "Oktoberfest", "Holi festival", "Thanksgiving",
+                "Aboriginal Dreamtime", "Native American traditions", "Celtic festivals",
+                "African tribal customs", "Hindu traditions", "Buddhist ceremonies"
+            ],
+            Topic::Crimes => &[
+                "Jack the Ripper", "Zodiac Killer", "Black Dahlia", "D.B. Cooper",
+                "Lindbergh kidnapping", "Alcatraz escape", "Great Train Robbery",
+                "Art theft", "Ponzi scheme", "Watergate scandal", "Enron scandal",
+                "Al Capone", "Pablo Escobar", "Serial killers"
+            ],
+            Topic::Civilizations => &[
+                "Ancient Egypt", "Maya civilization", "Aztec Empire", "Inca Empire",
+                "Mesopotamia", "Indus Valley Civilization", "Ancient Greece",
+                "Roman Empire", "Persian Empire", "Chinese dynasties", "Viking civilization",
+                "Angkor Wat", "Machu Picchu", "Petra", "Pompeii", "Troy"
+            ],
+            Topic::Psychology => &[
+                "Cognitive bias", "Memory formation", "Dreams", "Consciousness",
+                "Personality psychology", "Social psychology", "Behavioral psychology",
+                "Pavlov experiments", "Stanford prison experiment", "Milgram experiment",
+                "Placebo effect", "Optical illusions", "Phobias", "Depression", "Autism"
+            ],
         }
     }
 }
@@ -114,11 +163,11 @@ impl ContentUnit {
     /// Check if this content unit is suitable (1-2 paragraphs)
     /// This demonstrates method implementation and borrowing (&self)
     pub fn is_suitable_length(&self) -> bool {
-        let paragraph_count = self.content.split("\n\n").count();
         let word_count = self.word_count;
         
-        // Suitable if it's 1-2 paragraphs and 50-500 words
-        paragraph_count >= 1 && paragraph_count <= 2 && word_count >= 50 && word_count <= 500
+        // More flexible: suitable if it's 30-800 words (adjusted for better content variety)
+        // This allows for both concise and more detailed content
+        word_count >= 30 && word_count <= 800
     }
 
     /// Clean the content by removing unwanted characters and formatting

@@ -112,20 +112,41 @@ fn process_article_content(
 ) -> Vec<ContentUnit> {
     let mut units = Vec::new();
     
-    // Split content into paragraphs
-    let paragraphs: Vec<&str> = content
-        .split("\n")
-        .map(|p| p.trim())
-        .filter(|p| !p.is_empty() && p.len() > 50) // Filter out very short paragraphs
+    // First, try to use the full content if it's not too long
+    if content.len() > 100 && content.len() < 3000 {
+        let mut full_unit = ContentUnit::new(
+            topic,
+            title.to_string(),
+            content.to_string(),
+            source_url.to_string(),
+        );
+        
+        full_unit.clean_content();
+        
+        if full_unit.is_suitable_length() {
+            units.push(full_unit);
+            return units; // Return the full content if it's suitable
+        }
+    }
+    
+    // If full content is too long, split into sections
+    let sections: Vec<&str> = content
+        .split("\n\n")
+        .map(|s| s.trim())
+        .filter(|s| !s.is_empty() && s.len() > 30)
         .collect();
 
-    // Create units from individual paragraphs or pairs of paragraphs
-    for (i, paragraph) in paragraphs.iter().enumerate() {
-        let mut unit_content = paragraph.to_string();
+    // Try to create content units from sections
+    let mut i = 0;
+    while i < sections.len() {
+        let mut unit_content = sections[i].to_string();
         
-        // If the paragraph is short, try to combine with the next one
-        if paragraph.len() < 200 && i + 1 < paragraphs.len() {
-            unit_content = format!("{}\n\n{}", paragraph, paragraphs[i + 1]);
+        // If current section is short, try to combine with next sections
+        let mut j = i + 1;
+        while j < sections.len() && unit_content.len() < 400 {
+            unit_content.push_str("\n\n");
+            unit_content.push_str(sections[j]);
+            j += 1;
         }
         
         let mut content_unit = ContentUnit::new(
@@ -135,13 +156,14 @@ fn process_article_content(
             source_url.to_string(),
         );
         
-        // Clean the content
         content_unit.clean_content();
         
-        // Only keep units with suitable length
         if content_unit.is_suitable_length() {
             units.push(content_unit);
         }
+        
+        // Move to the next unprocessed section
+        i = if j > i + 1 { j } else { i + 1 };
     }
     
     units
@@ -165,8 +187,8 @@ async fn fetch_topic_content(
             break;
         }
         
-        // Search for articles
-        let article_titles = client.search_articles(query, 10).await?;
+        // Search for articles (increased limit for more variety)
+        let article_titles = client.search_articles(query, 25).await?;
         
         for title in article_titles {
             if total_units >= target_count {
@@ -249,8 +271,8 @@ async fn main() -> Result<()> {
     // Create Wikipedia client
     let client = WikipediaClient::new();
     
-    // Target number of units per topic
-    let units_per_topic = 15; // This will give us 150 total units
+    // Target number of units per topic (increased for more variety)
+    let units_per_topic = 55; // This will give us 250 total units
     let mut total_fetched = 0;
     
     // Fetch content for each topic
