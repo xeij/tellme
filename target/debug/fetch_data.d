@@ -1,0 +1,1 @@
+C:\Users\xeij\Desktop\tellme\target\debug\fetch_data.exe: C:\Users\xeij\Desktop\tellme\src\bin\fetch_data.rs C:\Users\xeij\Desktop\tellme\src\content.rs C:\Users\xeij\Desktop\tellme\src\database.rs C:\Users\xeij\Desktop\tellme\src\lib.rs C:\Users\xeij\Desktop\tellme\src\ui.rs

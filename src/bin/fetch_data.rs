@@ -2,10 +2,9 @@
 // This binary demonstrates HTTP requests, HTML parsing, async programming,
 // and data processing in Rust
 
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use rand::seq::SliceRandom;
 use reqwest::Client;
-use scraper::{Html, Selector};
 use serde_json::Value;
 use std::time::Duration;
 use tellme::{
