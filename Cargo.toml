@@ -1,0 +1,41 @@
+[package]
+name = "tellme"
+version = "0.1.0"
+edition = "2021"
+description = "A terminal app that displays interesting Wikipedia content with a typewriter effect"
+authors = ["Your Name <your.email@example.com>"]
+
+# Main binary for the TUI app
+[[bin]]
+name = "tellme"
+path = "src/main.rs"
+
+# Data fetching binary
+[[bin]]
+name = "fetch_data"
+path = "src/bin/fetch_data.rs"
+
+[dependencies]
+# TUI and terminal handling
+ratatui = "0.24"
+crossterm = "0.27"
+
+# HTTP requests and HTML parsing
+reqwest = { version = "0.11", features = ["json"] }
+scraper = "0.18"
+tokio = { version = "1.0", features = ["full"] }
+
+# Database and serialization
+rusqlite = { version = "0.29", features = ["bundled"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling and utilities
+anyhow = "1.0"
+rand = "0.8"
+regex = "1.10"
+chrono = { version = "0.4", features = ["serde"] }
+urlencoding = "2.1"
+
+# Async runtime helpers
+futures = "0.3" 
