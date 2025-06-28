@@ -86,30 +86,128 @@ impl Database {
         Ok(())
     }
 
-    /// Get a random content unit, weighted by user preferences
-    /// This demonstrates complex SQL queries and random selection
+    /// Get a content unit using smart balanced recommendation
+    /// This ensures variety while still learning from user preferences
     pub fn get_weighted_random_content(&self) -> Result<Option<ContentUnit>> {
-        // Get topic preferences based on user interactions
+        // Get topic preferences and recent topic history
         let topic_weights = self.get_topic_preferences()?;
+        let recent_topics = self.get_recent_topics(5)?; // Last 5 topics shown
         
         // If no preferences exist, return truly random content
         if topic_weights.is_empty() {
             return self.get_random_content();
         }
 
-        // Build weighted query - this is a simplified approach
-        // In a real app, you might want more sophisticated weighted random selection
-        let mut best_topic = Topic::Facts;
-        let mut best_score = 0.0;
+        // Calculate smart weights with diversity bonus
+        let smart_topic = self.select_topic_with_diversity(&topic_weights, &recent_topics)?;
         
-        for (topic, score) in topic_weights {
-            if score > best_score {
-                best_score = score;
-                best_topic = topic;
+        self.get_random_content_by_topic(smart_topic)
+    }
+
+    /// Select topic using weighted random selection with diversity bonuses
+    fn select_topic_with_diversity(
+        &self, 
+        preferences: &HashMap<Topic, f64>,
+        recent_topics: &[Topic]
+    ) -> Result<Topic> {
+        let mut topic_scores = HashMap::new();
+        
+        // Start with base preference scores (0.0 to 1.0)
+        for topic in Topic::all() {
+            let base_score = preferences.get(topic).copied().unwrap_or(0.3); // Default 30% for new topics
+            topic_scores.insert(*topic, base_score);
+        }
+        
+        // Apply diversity bonuses/penalties
+        for (topic, score) in topic_scores.iter_mut() {
+            // Heavy penalty for topics shown recently (more recent = bigger penalty)
+            for (i, recent_topic) in recent_topics.iter().enumerate() {
+                if topic == recent_topic {
+                    let penalty = match i {
+                        0 => 0.1,  // Last topic: 90% penalty
+                        1 => 0.3,  // 2nd last: 70% penalty  
+                        2 => 0.6,  // 3rd last: 40% penalty
+                        3 => 0.8,  // 4th last: 20% penalty
+                        4 => 0.9,  // 5th last: 10% penalty
+                        _ => 1.0,
+                    };
+                    *score *= penalty;
+                }
+            }
+            
+            // Exploration bonus for topics with few interactions
+            let interaction_count = self.get_topic_interaction_count(*topic).unwrap_or(0);
+            if interaction_count < 3 {
+                *score += 0.2; // 20% bonus for under-explored topics
+            }
+            
+            // Ensure minimum score for variety
+            *score = score.max(0.05); // Every topic has at least 5% chance
+        }
+        
+        // Weighted random selection
+        self.weighted_random_selection(&topic_scores)
+    }
+    
+    /// Perform weighted random selection from topic scores
+    fn weighted_random_selection(&self, topic_scores: &HashMap<Topic, f64>) -> Result<Topic> {
+        use rand::Rng;
+        
+        let total_weight: f64 = topic_scores.values().sum();
+        let mut rng = rand::thread_rng();
+        let mut random_point = rng.gen::<f64>() * total_weight;
+        
+        for (topic, weight) in topic_scores {
+            random_point -= weight;
+            if random_point <= 0.0 {
+                return Ok(*topic);
             }
         }
-
-        self.get_random_content_by_topic(best_topic)
+        
+        // Fallback to random topic (shouldn't happen)
+        let topics = Topic::all();
+        let random_index = rng.gen_range(0..topics.len());
+        Ok(topics[random_index])
+    }
+    
+    /// Get recently shown topics to prevent repetition
+    fn get_recent_topics(&self, limit: usize) -> Result<Vec<Topic>> {
+        let mut stmt = self.conn.prepare(
+            "SELECT c.topic FROM user_interactions ui
+             JOIN content c ON ui.content_id = c.id
+             ORDER BY ui.timestamp DESC
+             LIMIT ?1"
+        )?;
+        
+        let rows = stmt.query_map([limit], |row| {
+            let topic_str: String = row.get(0)?;
+            Ok(topic_str)
+        })?;
+        
+        let mut recent_topics = Vec::new();
+        for row_result in rows {
+            let topic_str = row_result?;
+            if let Ok(topic) = serde_json::from_str::<Topic>(&topic_str) {
+                recent_topics.push(topic);
+            }
+        }
+        
+        Ok(recent_topics)
+    }
+    
+    /// Get the number of interactions for a specific topic
+    fn get_topic_interaction_count(&self, topic: Topic) -> Result<i64> {
+        let topic_str = serde_json::to_string(&topic)?;
+        
+        let count = self.conn.query_row(
+            "SELECT COUNT(*) FROM user_interactions ui
+             JOIN content c ON ui.content_id = c.id
+             WHERE c.topic = ?1",
+            params![topic_str],
+            |row| row.get::<_, i64>(0),
+        )?;
+        
+        Ok(count)
     }
 
     /// Get completely random content
