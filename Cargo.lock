@@ -1459,6 +1459,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "semver"
+version = "1.0.26"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "56e6fa9c48d24d85fb3de5ad847117517440f6beceb7798af16b4a87d616b8d0"
+
+[[package]]
 name = "serde"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1696,7 +1702,7 @@ dependencies = [
 
 [[package]]
 name = "tellme"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -1708,6 +1714,7 @@ dependencies = [
  "reqwest",
  "rusqlite",
  "scraper",
+ "semver",
  "serde",
  "serde_json",
  "tokio",

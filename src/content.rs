@@ -5,349 +5,203 @@
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
-/// Represents the different topics we fetch content about
-/// This enum demonstrates Rust's powerful enum system - now with 30+ topics!
+/// Represents different historical time periods and eras we focus on
+/// This enum demonstrates Rust's powerful enum system - focused on HISTORY!
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Topic {
-    // Original topics
-    Facts,
-    History,
-    Philosophy,
-    Mysteries,
-    Conspiracies,
-    Science,
-    Traditions,
-    Crimes,
-    Civilizations,
-    Psychology,
+    // Prehistoric & Ancient Times
+    Prehistoric,        // Before written history
+    AncientEgypt,      // 3100 BCE - 30 BCE
+    AncientGreece,     // 800 BCE - 146 BCE
+    AncientRome,       // 753 BCE - 476/1453 CE
+    AncientChina,      // 2070 BCE - 220 CE
     
-    // NEW: Technology & Innovation
-    Technology,
-    Medicine,
-    Space,
-    Mathematics,
+    // Classical & Post-Classical
+    Byzantine,         // 330-1453 CE
+    Medieval,          // 500-1500 CE
+    Viking,           // 793-1066 CE
+    Islamic,          // 610-1258 CE
+    Mongol,           // 1206-1368 CE
     
-    // NEW: Arts & Culture
-    Art,
-    Music,
-    Literature,
-    Film,
-    Architecture,
+    // Early Modern Period
+    Renaissance,       // 1300-1600 CE
+    AgeOfExploration, // 1400-1600 CE
+    Colonial,         // 1492-1800 CE
+    Enlightenment,    // 1685-1815 CE
     
-    // NEW: Nature & Life
-    Animals,
-    Biology,
-    Geography,
-    Environment,
-    Weather,
-    
-    // NEW: Human Society
-    Religion,
-    Mythology,
-    Politics,
-    Economics,
-    Sports,
-    
-    // NEW: Daily Life & Modern World
-    Food,
-    Language,
-    Transportation,
-    Inventions,
-    Fashion,
+    // Modern Era
+    Industrial,       // 1760-1840 CE
+    NineteenthCentury, // 1801-1900 CE
+    WorldWarOne,      // 1914-1918 CE
+    InterwarPeriod,   // 1918-1939 CE
+    WorldWarTwo,      // 1939-1945 CE
+    ColdWar,          // 1947-1991 CE
+    Contemporary,     // 1991-present
 }
 
 impl Topic {
-    /// Returns all available topics as a slice
-    /// This is a const function, computed at compile time - now with 30+ topics!
+    /// Returns all historical periods as a slice
     pub const fn all() -> &'static [Topic] {
         &[
-            // Original topics
-            Topic::Facts,
-            Topic::History,
-            Topic::Philosophy,
-            Topic::Mysteries,
-            Topic::Conspiracies,
-            Topic::Science,
-            Topic::Traditions,
-            Topic::Crimes,
-            Topic::Civilizations,
-            Topic::Psychology,
+            // Prehistoric & Ancient Times
+            Topic::Prehistoric,
+            Topic::AncientEgypt,
+            Topic::AncientGreece,
+            Topic::AncientRome,
+            Topic::AncientChina,
             
-            // Technology & Innovation
-            Topic::Technology,
-            Topic::Medicine,
-            Topic::Space,
-            Topic::Mathematics,
+            // Classical & Post-Classical
+            Topic::Byzantine,
+            Topic::Medieval,
+            Topic::Viking,
+            Topic::Islamic,
+            Topic::Mongol,
             
-            // Arts & Culture
-            Topic::Art,
-            Topic::Music,
-            Topic::Literature,
-            Topic::Film,
-            Topic::Architecture,
+            // Early Modern Period
+            Topic::Renaissance,
+            Topic::AgeOfExploration,
+            Topic::Colonial,
+            Topic::Enlightenment,
             
-            // Nature & Life
-            Topic::Animals,
-            Topic::Biology,
-            Topic::Geography,
-            Topic::Environment,
-            Topic::Weather,
-            
-            // Human Society
-            Topic::Religion,
-            Topic::Mythology,
-            Topic::Politics,
-            Topic::Economics,
-            Topic::Sports,
-            
-            // Daily Life & Modern World
-            Topic::Food,
-            Topic::Language,
-            Topic::Transportation,
-            Topic::Inventions,
-            Topic::Fashion,
+            // Modern Era
+            Topic::Industrial,
+            Topic::NineteenthCentury,
+            Topic::WorldWarOne,
+            Topic::InterwarPeriod,
+            Topic::WorldWarTwo,
+            Topic::ColdWar,
+            Topic::Contemporary,
         ]
     }
 
-    /// Get Wikipedia search queries for each topic - MASSIVELY EXPANDED for 10x content!
-    /// This demonstrates pattern matching with match expressions
+    /// Get fascinating historical search queries for each time period
+    /// Focused on amazing stories, shocking events, incredible people, and mind-blowing discoveries
     pub fn search_queries(&self) -> &'static [&'static str] {
         match self {
-            Topic::Facts => &[
-                "World record", "Guinness World Records", "Strange phenomena", "Unusual animals", 
-                "Natural wonders", "Scientific facts", "Human body facts", "Space facts", 
-                "Ocean mysteries", "Animal behavior", "Plant adaptations", "Weather phenomena",
-                "Rare diseases", "Extinct animals", "Deep sea creatures", "Extreme weather",
-                "Human oddities", "Geological wonders", "Astronomical phenomena", "Record holders"
-            ],
-            Topic::History => &[
-                "World War I", "World War II", "Ancient Rome", "Medieval period", "Renaissance",
-                "Industrial Revolution", "Cold War", "Viking Age", "Mongol Empire", "Byzantine Empire",
-                "Ottoman Empire", "British Empire", "Spanish Empire", "French Revolution", "American Civil War",
-                "Russian Revolution", "Napoleon Bonaparte", "Alexander the Great", "Julius Caesar",
-                "Cleopatra", "Crusades", "Black Death", "Age of Exploration", "Colonial America",
-                "Wild West", "Great Depression", "Holocaust", "Berlin Wall", "Pearl Harbor"
-            ],
-            Topic::Philosophy => &[
-                "Socrates", "Plato", "Aristotle", "Descartes", "Kant", "Nietzsche", "Existentialism",
-                "Stoicism", "Buddhism philosophy", "Confucianism", "Ethics", "Metaphysics", "Epistemology",
-                "Logic", "Phenomenology", "Utilitarianism", "Nihilism", "Determinism", "Free will",
-                "Moral philosophy", "Political philosophy", "Philosophy of mind", "Ancient philosophy"
-            ],
-            Topic::Mysteries => &[
-                "Bermuda Triangle", "Stonehenge", "Easter Island", "Nazca Lines", "Crop circles",
-                "Ball lightning", "Spontaneous human combustion", "Voynich Manuscript", "Antikythera mechanism",
-                "Shroud of Turin", "Oak Island", "Bigfoot", "UFO sightings", "Ghost phenomena",
-                "Loch Ness Monster", "Atlantis", "Tunguska event", "Mary Celeste", "Lost colonies",
-                "Time travel", "Poltergeist", "Near-death experiences", "Psychic phenomena"
-            ],
-            Topic::Conspiracies => &[
-                "JFK assassination", "Moon landing conspiracy", "9/11 conspiracy", "Area 51", "Illuminati",
-                "New World Order", "Chemtrails", "HAARP", "MKUltra", "Project Blue Book", "Roswell incident",
-                "Philadelphia Experiment", "Flat Earth", "QAnon", "Reptilian people", "Bohemian Grove",
-                "Denver Airport", "FEMA camps", "Subliminal messages", "Mind control"
-            ],
-            Topic::Science => &[
-                "DNA discovery", "Theory of relativity", "Quantum mechanics", "Evolution", "Penicillin",
-                "Vaccines", "Atomic theory", "Periodic table", "Electromagnetic radiation", "Black holes",
-                "Big Bang theory", "Photosynthesis", "Genetics", "Stem cells", "CRISPR", "Antibiotics",
-                "Nuclear fusion", "Particle physics", "Climate change", "Radioactivity", "X-rays",
-                "Laser technology", "Superconductivity", "Gene therapy", "Nanotechnology"
-            ],
-            Topic::Traditions => &[
-                "Japanese tea ceremony", "Diwali", "Day of the Dead", "Carnival", "Chinese New Year",
-                "Oktoberfest", "Holi festival", "Thanksgiving", "Aboriginal Dreamtime", "Native American traditions",
-                "Celtic festivals", "African tribal customs", "Hindu traditions", "Buddhist ceremonies",
-                "Christmas traditions", "Wedding customs", "Coming of age rituals", "Funeral rites",
-                "Harvest festivals", "Spring festivals", "Religious pilgrimages", "Folk dances"
-            ],
-            Topic::Crimes => &[
-                "Jack the Ripper", "Zodiac Killer", "Black Dahlia", "D.B. Cooper", "Lindbergh kidnapping",
-                "Alcatraz escape", "Great Train Robbery", "Art theft", "Ponzi scheme", "Watergate scandal",
-                "Enron scandal", "Al Capone", "Pablo Escobar", "Serial killers", "Bonnie and Clyde",
-                "Bank robberies", "Heists", "Cold cases", "Forensic science", "Criminal psychology",
-                "White collar crime", "Organized crime", "Cybercrime", "Identity theft"
-            ],
-            Topic::Civilizations => &[
-                "Ancient Egypt", "Maya civilization", "Aztec Empire", "Inca Empire", "Mesopotamia",
-                "Indus Valley Civilization", "Ancient Greece", "Roman Empire", "Persian Empire", "Chinese dynasties",
-                "Viking civilization", "Angkor Wat", "Machu Picchu", "Petra", "Pompeii", "Troy",
-                "Babylonian Empire", "Assyrian Empire", "Phoenicians", "Celts", "Germanic tribes",
-                "Silk Road", "Great Wall of China", "Pyramids", "Colosseum", "Parthenon"
-            ],
-            Topic::Psychology => &[
-                "Cognitive bias", "Memory formation", "Dreams", "Consciousness", "Personality psychology",
-                "Social psychology", "Behavioral psychology", "Pavlov experiments", "Stanford prison experiment",
-                "Milgram experiment", "Placebo effect", "Optical illusions", "Phobias", "Depression", "Autism",
-                "PTSD", "Schizophrenia", "Multiple personality", "Learning disabilities", "Intelligence",
-                "Emotion", "Stress", "Sleep disorders", "Addiction psychology", "Child psychology"
+            Topic::Prehistoric => &[
+                "Prehistoric archaeology", "Stone Age", "Ice Age", "Cave paintings", "Neanderthal",
+                "Hunter gatherer", "Megalith", "Stonehenge", "Paleolithic", "Neolithic",
+                "Early humans", "Fossil humans", "Ancient tools", "Prehistoric art", "Mammoth"
             ],
             
-            // NEW TOPIC QUERIES - MASSIVE EXPANSION!
-            Topic::Technology => &[
-                "Internet", "World Wide Web", "Computer", "Smartphone", "Artificial Intelligence",
-                "Machine learning", "Robotics", "Virtual reality", "Augmented reality", "3D printing",
-                "Blockchain", "Cryptocurrency", "Social media", "Cloud computing", "Internet of Things",
-                "Quantum computing", "Cybersecurity", "Big data", "Programming languages", "Operating systems",
-                "Video games", "Software engineering", "Hardware", "Semiconductors", "Fiber optics"
+            Topic::AncientEgypt => &[
+                "Ancient Egypt", "Pharaoh", "Pyramid", "Mummy", "Hieroglyph",
+                "Tutankhamun", "Cleopatra", "Nile River", "Sphinx", "Egyptian mythology",
+                "Egyptian medicine", "Papyrus", "Egyptian gods", "Valley of the Kings", "Egyptian art"
             ],
-            Topic::Medicine => &[
-                "Heart surgery", "Cancer treatment", "Organ transplant", "Medical imaging", "Vaccines",
-                "Antibiotics", "Anesthesia", "Surgery", "Mental health", "Genetics medicine",
-                "Immunology", "Pharmacology", "Epidemiology", "Public health", "Medical devices",
-                "Telemedicine", "Precision medicine", "Medical ethics", "Clinical trials", "Disease prevention",
-                "Emergency medicine", "Pediatrics", "Geriatrics", "Medical breakthroughs", "Health technology"
+            
+            Topic::AncientGreece => &[
+                "Ancient Greece", "Alexander the Great", "Greek philosophy", "Olympic Games", "Sparta",
+                "Athens", "Greek mythology", "Parthenon", "Socrates", "Plato",
+                "Aristotle", "Greek democracy", "Greek theater", "Greek warfare", "Greek art"
             ],
-            Topic::Space => &[
-                "NASA", "Space exploration", "Apollo missions", "International Space Station", "Mars missions",
-                "Hubble telescope", "Solar system", "Planets", "Stars", "Galaxies", "Nebulae",
-                "Astronauts", "Space shuttle", "Satellites", "Rocket technology", "Space race",
-                "Exoplanets", "Space colonization", "Asteroid belt", "Comets", "Space debris",
-                "Dark matter", "Dark energy", "Cosmic radiation", "Space travel", "SETI"
+            
+            Topic::AncientRome => &[
+                "Roman Empire", "Julius Caesar", "Augustus", "Gladiator", "Colosseum",
+                "Roman legion", "Pompeii", "Roman engineering", "Roman law", "Constantine",
+                "Fall of Rome", "Roman Senate", "Roman gods", "Roman architecture", "Hadrian's Wall"
             ],
-            Topic::Mathematics => &[
-                "Calculus", "Algebra", "Geometry", "Statistics", "Probability", "Number theory",
-                "Mathematical proofs", "Famous mathematicians", "Mathematical constants", "Infinity",
-                "Fractals", "Game theory", "Cryptography", "Mathematical modeling", "Topology",
-                "Set theory", "Logic", "Differential equations", "Linear algebra", "Mathematical paradoxes",
-                "Prime numbers", "Mathematical discoveries", "Applications of mathematics", "Pure mathematics"
+            
+            Topic::AncientChina => &[
+                "Ancient China", "Great Wall of China", "Chinese dynasty", "Confucius", "Chinese emperor",
+                "Silk Road", "Chinese philosophy", "Chinese invention", "Terracotta Army", "Chinese medicine",
+                "Chinese art", "Chinese writing", "Chinese warfare", "Forbidden City", "Chinese mythology"
             ],
-            Topic::Art => &[
-                "Leonardo da Vinci", "Michelangelo", "Pablo Picasso", "Vincent van Gogh", "Claude Monet",
-                "Renaissance art", "Impressionism", "Abstract art", "Modern art", "Contemporary art",
-                "Sculpture", "Painting techniques", "Art movements", "Famous paintings", "Art museums",
-                "Street art", "Digital art", "Photography", "Art history", "Art criticism",
-                "Installation art", "Performance art", "Art collecting", "Art restoration", "Folk art"
+            
+            Topic::Byzantine => &[
+                "Byzantine Empire", "Constantinople", "Byzantine emperor", "Hagia Sophia", "Justinian",
+                "Byzantine art", "Eastern Orthodox", "Byzantine military", "Byzantine culture", "Crusades",
+                "Ottoman conquest", "Byzantine architecture", "Byzantine politics", "Byzantine trade", "Greek fire"
             ],
-            Topic::Music => &[
-                "Classical music", "Mozart", "Beethoven", "Bach", "Jazz music", "Blues", "Rock music",
-                "Pop music", "Hip hop", "Electronic music", "Folk music", "Country music", "Opera",
-                "Symphony orchestra", "Musical instruments", "Music theory", "Composers", "Musicians",
-                "Music genres", "Music history", "Music festivals", "Record industry", "Music technology",
-                "Sound engineering", "Music therapy", "World music", "Musical notation"
+            
+            Topic::Medieval => &[
+                "Middle Ages", "Medieval Europe", "Knight", "Castle", "Feudalism",
+                "Crusades", "Black Death", "Medieval warfare", "Medieval art", "Gothic architecture",
+                "Medieval literature", "Viking raids", "Medieval trade", "Medieval technology", "Medieval church"
             ],
-            Topic::Literature => &[
-                "Shakespeare", "Mark Twain", "Jane Austen", "Charles Dickens", "Ernest Hemingway",
-                "Poetry", "Novels", "Short stories", "Drama", "Fiction", "Non-fiction", "Biographies",
-                "Literary criticism", "Book publishing", "Libraries", "Reading", "Writing", "Authors",
-                "Literary movements", "Classic literature", "Modern literature", "Children's literature",
-                "Science fiction", "Fantasy literature", "Mystery novels", "Romance novels"
+            
+            Topic::Viking => &[
+                "Viking", "Norse mythology", "Viking exploration", "Viking ship", "Viking raid",
+                "Viking settlement", "Norse saga", "Viking culture", "Viking warfare", "Leif Erikson",
+                "Viking Age", "Norse gods", "Runes", "Viking trade", "Viking society"
             ],
-            Topic::Film => &[
-                "Hollywood", "Cinema history", "Film directors", "Movie stars", "Academy Awards",
-                "Film genres", "Special effects", "Animation", "Documentary films", "Independent films",
-                "Foreign films", "Film festivals", "Movie studios", "Cinematography", "Film editing",
-                "Sound design", "Film production", "Movie theaters", "Film criticism", "Cult films",
-                "Silent films", "Color films", "Digital cinema", "Film preservation", "Movie industry"
+            
+            Topic::Islamic => &[
+                "Islamic civilization", "Islamic Golden Age", "Islamic conquest", "Caliphate", "Islamic science",
+                "Islamic art", "Islamic architecture", "Islamic philosophy", "Muhammad", "Quran",
+                "Islamic empire", "Islamic trade", "Islamic medicine", "Islamic mathematics", "Mosque"
             ],
-            Topic::Architecture => &[
-                "Ancient architecture", "Gothic architecture", "Renaissance architecture", "Modern architecture",
-                "Skyscrapers", "Famous buildings", "Architectural styles", "Urban planning", "Construction",
-                "Building materials", "Architectural engineering", "Interior design", "Landscape architecture",
-                "Sustainable architecture", "Architectural history", "Monuments", "Bridges", "Dams",
-                "Cathedrals", "Palaces", "Castles", "Architectural preservation", "Building codes"
+            
+            Topic::Mongol => &[
+                "Mongol Empire", "Genghis Khan", "Mongol conquest", "Mongol warfare", "Silk Road",
+                "Kublai Khan", "Mongol culture", "Mongol society", "Mongol military", "Yuan dynasty",
+                "Mongol invasion", "Mongol administration", "Mongol trade", "Mongol religion", "Pax Mongolica"
             ],
-            Topic::Animals => &[
-                "Mammals", "Birds", "Reptiles", "Amphibians", "Fish", "Insects", "Marine life",
-                "Endangered species", "Animal behavior", "Animal intelligence", "Animal communication",
-                "Migration patterns", "Predators", "Ecosystems", "Zoos", "Wildlife conservation",
-                "Pets", "Domestic animals", "Wild animals", "Animal rights", "Veterinary medicine",
-                "Animal training", "Animal psychology", "Extinct animals", "Animal evolution"
+            
+            Topic::Renaissance => &[
+                "Renaissance", "Leonardo da Vinci", "Michelangelo", "Renaissance art", "Humanism",
+                "Italian Renaissance", "Renaissance science", "Printing press", "Renaissance literature", "Medici family",
+                "Renaissance architecture", "Renaissance philosophy", "Renaissance technology", "Renaissance exploration", "Renaissance music"
             ],
-            Topic::Biology => &[
-                "Cell biology", "Molecular biology", "Genetics", "Evolution", "Ecology", "Botany",
-                "Microbiology", "Biochemistry", "Physiology", "Anatomy", "Neuroscience", "Immunology",
-                "Marine biology", "Biotechnology", "Biodiversity", "Photosynthesis", "DNA", "RNA",
-                "Proteins", "Enzymes", "Hormones", "Metabolism", "Reproduction", "Development biology"
+            
+            Topic::AgeOfExploration => &[
+                "Age of Exploration", "Christopher Columbus", "Vasco da Gama", "Magellan", "Spanish conquest",
+                "Portuguese exploration", "New World", "European exploration", "Maritime exploration", "Colonial empire",
+                "Navigation", "Conquistador", "Trading post", "Exploration technology", "Cartography"
             ],
-            Topic::Geography => &[
-                "Continents", "Countries", "Mountains", "Rivers", "Oceans", "Deserts", "Forests",
-                "Islands", "Volcanoes", "Earthquakes", "Climate", "Weather patterns", "Natural disasters",
-                "Cartography", "GPS", "Exploration", "Geographic features", "Topography", "Geology",
-                "Human geography", "Urban geography", "Population", "Demographics", "Migration", "Borders"
+            
+            Topic::Colonial => &[
+                "Colonial America", "British Empire", "Spanish Empire", "French colonial empire", "Dutch Empire",
+                "Colonization", "Colonial society", "Colonial economy", "Colonial culture", "Colonial trade",
+                "Colonial administration", "Colonial resistance", "Colonial expansion", "Colonial settlement", "Mercantilism"
             ],
-            Topic::Environment => &[
-                "Climate change", "Global warming", "Pollution", "Renewable energy", "Conservation",
-                "Sustainability", "Recycling", "Deforestation", "Ocean pollution", "Air quality",
-                "Water conservation", "Environmental policy", "Green technology", "Carbon footprint",
-                "Ecosystem", "Biodiversity loss", "Environmental activism", "Natural resources",
-                "Environmental science", "Ecology", "Environmental protection", "Waste management"
+            
+            Topic::Enlightenment => &[
+                "Age of Enlightenment", "Enlightenment philosophy", "Voltaire", "John Locke", "Scientific Revolution",
+                "Enlightenment thinkers", "Political philosophy", "Natural rights", "Social contract", "Reason",
+                "Enlightenment science", "Encyclopedia", "Enlightenment politics", "Religious tolerance", "Progress"
             ],
-            Topic::Weather => &[
-                "Hurricanes", "Tornadoes", "Thunderstorms", "Blizzards", "Droughts", "Floods",
-                "Meteorology", "Weather forecasting", "Climate patterns", "Atmospheric science",
-                "Extreme weather", "Weather instruments", "Clouds", "Precipitation", "Temperature",
-                "Wind patterns", "Seasonal changes", "Weather phenomena", "Storm chasing", "Weather safety"
+            
+            Topic::Industrial => &[
+                "Industrial Revolution", "Steam engine", "Factory system", "Industrial technology", "Railway",
+                "Industrial society", "Industrial workers", "Textile industry", "Coal mining", "Iron industry",
+                "Industrial cities", "Labor movement", "Industrial capitalism", "Mass production", "Industrial innovation"
             ],
-            Topic::Religion => &[
-                "Christianity", "Islam", "Judaism", "Buddhism", "Hinduism", "Religious history",
-                "Religious practices", "Religious texts", "Theology", "Comparative religion",
-                "Religious philosophy", "Spirituality", "Meditation", "Prayer", "Religious festivals",
-                "Religious art", "Religious music", "Monasticism", "Pilgrimage", "Religious leaders",
-                "Religious conflicts", "Religious tolerance", "Secularism", "Atheism", "Agnosticism"
+            
+            Topic::NineteenthCentury => &[
+                "19th century", "Victorian era", "Nationalism", "Romanticism", "Scientific progress",
+                "Social reform", "Abolition", "Women's rights", "Labor rights", "Political revolution",
+                "Cultural change", "Technological advancement", "Economic growth", "Imperial expansion", "Social movement"
             ],
-            Topic::Mythology => &[
-                "Greek mythology", "Roman mythology", "Norse mythology", "Egyptian mythology", "Celtic mythology",
-                "Hindu mythology", "Chinese mythology", "Japanese mythology", "Native American mythology",
-                "African mythology", "Mesopotamian mythology", "Mythical creatures", "Creation myths",
-                "Hero myths", "Flood myths", "Underworld myths", "Sky gods", "Earth goddesses",
-                "Trickster gods", "Mythological symbols", "Folklore", "Legends", "Fairy tales"
+            
+            Topic::WorldWarOne => &[
+                "World War I", "Trench warfare", "Western Front", "Russian Revolution", "Treaty of Versailles",
+                "World War 1 technology", "Military strategy", "War propaganda", "Home front", "War casualties",
+                "Assassination of Archduke", "Central Powers", "Allied Powers", "Battle of the Somme", "Armistice"
             ],
-            Topic::Politics => &[
-                "Democracy", "Political systems", "Government", "Elections", "Political parties",
-                "Political leaders", "International relations", "Diplomacy", "Political theory",
-                "Political history", "Constitutional law", "Civil rights", "Human rights", "Political movements",
-                "Revolution", "Political economy", "Public policy", "Political science", "Voting systems",
-                "Political campaigns", "Political corruption", "Political reform", "Governance"
+            
+            Topic::InterwarPeriod => &[
+                "Interwar period", "Great Depression", "Rise of fascism", "Weimar Republic", "Soviet Union",
+                "Jazz Age", "Roaring Twenties", "Stock market crash", "New Deal", "Appeasement",
+                "League of Nations", "Cultural change", "Political instability", "Economic crisis", "Social change"
             ],
-            Topic::Economics => &[
-                "Capitalism", "Socialism", "Economic systems", "Stock market", "Banking", "Currency",
-                "Inflation", "Recession", "Economic theory", "Microeconomics", "Macroeconomics",
-                "International trade", "Economic development", "Economic policy", "Economic history",
-                "Labor economics", "Economic inequality", "Economic growth", "Market economics",
-                "Economic indicators", "Financial markets", "Economic cycles", "Entrepreneurship"
+            
+            Topic::WorldWarTwo => &[
+                "World War II", "Holocaust", "D-Day", "Pearl Harbor", "Battle of Britain",
+                "Nazi Germany", "Pacific War", "Resistance movement", "War crimes", "Atomic bomb",
+                "Blitzkrieg", "Eastern Front", "Home front", "War technology", "Liberation"
             ],
-            Topic::Sports => &[
-                "Olympic Games", "Football", "Basketball", "Baseball", "Soccer", "Tennis", "Golf",
-                "Swimming", "Track and field", "Boxing", "Wrestling", "Martial arts", "Gymnastics",
-                "Figure skating", "Skiing", "Cycling", "Racing", "Extreme sports", "Team sports",
-                "Individual sports", "Sports history", "Sports psychology", "Sports medicine",
-                "Athletic training", "Sports equipment", "Sports rules", "Professional sports"
+            
+            Topic::ColdWar => &[
+                "Cold War", "Iron Curtain", "Berlin Wall", "Cuban Missile Crisis", "Space Race",
+                "McCarthyism", "Nuclear arms race", "Proxy war", "Decolonization", "Détente",
+                "Soviet Union", "NATO", "Warsaw Pact", "Korean War", "Vietnam War"
             ],
-            Topic::Food => &[
-                "Cooking techniques", "World cuisines", "Food history", "Nutrition", "Restaurants",
-                "Food science", "Culinary arts", "Food safety", "Food production", "Agriculture",
-                "Organic food", "Fast food", "Food culture", "Traditional dishes", "Spices",
-                "Beverages", "Food preservation", "Food allergies", "Dietary requirements", "Food trends",
-                "Food industry", "Celebrity chefs", "Food photography", "Food criticism", "Food festivals"
-            ],
-            Topic::Language => &[
-                "Linguistics", "Language families", "Grammar", "Vocabulary", "Phonetics", "Semantics",
-                "Language evolution", "Dead languages", "Endangered languages", "Translation", "Interpretation",
-                "Bilingualism", "Language learning", "Writing systems", "Alphabet", "Typography",
-                "Communication", "Sign language", "Body language", "Language disorders", "Sociolinguistics",
-                "Psycholinguistics", "Computational linguistics", "Language policy", "Dialects"
-            ],
-            Topic::Transportation => &[
-                "Automobiles", "Aircraft", "Ships", "Trains", "Bicycles", "Public transportation",
-                "Transportation history", "Aviation", "Maritime transport", "Railway systems", "Roads",
-                "Traffic", "Transportation engineering", "Logistics", "Supply chain", "Transportation policy",
-                "Electric vehicles", "Autonomous vehicles", "Transportation safety", "Urban transportation",
-                "Freight transport", "Passenger transport", "Transportation infrastructure", "Future transport"
-            ],
-            Topic::Inventions => &[
-                "Steam engine", "Light bulb", "Telephone", "Radio", "Television", "Computer", "Internet",
-                "Printing press", "Wheel", "Compass", "Gunpowder", "Paper", "Microscope", "Telescope",
-                "Photography", "Motion pictures", "Refrigeration", "Air conditioning", "Medical inventions",
-                "Military inventions", "Agricultural inventions", "Communication inventions", "Transportation inventions",
-                "Energy inventions", "Modern inventions", "Future inventions", "Patent system", "Innovation"
-            ],
-            Topic::Fashion => &[
-                "Fashion history", "Fashion designers", "Fashion trends", "Clothing", "Textiles",
-                "Fashion industry", "Fashion shows", "Fashion photography", "Fashion journalism",
-                "Sustainable fashion", "Fast fashion", "Luxury fashion", "Street fashion", "Fashion accessories",
-                "Fashion technology", "Fashion business", "Fashion marketing", "Fashion education",
-                "Cultural fashion", "Fashion psychology", "Fashion and identity", "Fashion movements"
+            
+            Topic::Contemporary => &[
+                "Contemporary history", "Globalization", "Digital revolution", "Fall of communism", "Terrorism",
+                "Climate change", "Internet", "Social media", "Economic integration", "Cultural diversity",
+                "Technological advancement", "Political change", "Social transformation", "Environmental issues", "Human rights"
             ],
         }
     }
@@ -357,51 +211,34 @@ impl Topic {
 impl fmt::Display for Topic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let name = match self {
-            // Original topics
-            Topic::Facts => "Interesting Facts",
-            Topic::History => "History",
-            Topic::Philosophy => "Philosophy",
-            Topic::Mysteries => "World Mysteries",
-            Topic::Conspiracies => "Conspiracies",
-            Topic::Science => "Science",
-            Topic::Traditions => "Cultural Traditions",
-            Topic::Crimes => "Unsolved Crimes",
-            Topic::Civilizations => "Ancient Civilizations",
-            Topic::Psychology => "Psychology",
+            // Prehistoric & Ancient Times
+            Topic::Prehistoric => "Prehistoric",
+            Topic::AncientEgypt => "Ancient Egypt",
+            Topic::AncientGreece => "Ancient Greece",
+            Topic::AncientRome => "Ancient Rome",
+            Topic::AncientChina => "Ancient China",
             
-            // Technology & Innovation
-            Topic::Technology => "Technology",
-            Topic::Medicine => "Medicine & Health",
-            Topic::Space => "Space & Astronomy",
-            Topic::Mathematics => "Mathematics",
+            // Classical & Post-Classical
+            Topic::Byzantine => "Byzantine",
+            Topic::Medieval => "Medieval",
+            Topic::Viking => "Viking",
+            Topic::Islamic => "Islamic",
+            Topic::Mongol => "Mongol",
             
-            // Arts & Culture
-            Topic::Art => "Art & Visual Arts",
-            Topic::Music => "Music",
-            Topic::Literature => "Literature",
-            Topic::Film => "Film & Cinema",
-            Topic::Architecture => "Architecture",
+            // Early Modern Period
+            Topic::Renaissance => "Renaissance",
+            Topic::AgeOfExploration => "Age of Exploration",
+            Topic::Colonial => "Colonial",
+            Topic::Enlightenment => "Enlightenment",
             
-            // Nature & Life
-            Topic::Animals => "Animals & Wildlife",
-            Topic::Biology => "Biology & Life Sciences",
-            Topic::Geography => "Geography",
-            Topic::Environment => "Environment & Ecology",
-            Topic::Weather => "Weather & Climate",
-            
-            // Human Society
-            Topic::Religion => "Religion & Spirituality",
-            Topic::Mythology => "Mythology & Folklore",
-            Topic::Politics => "Politics & Government",
-            Topic::Economics => "Economics & Finance",
-            Topic::Sports => "Sports & Athletics",
-            
-            // Daily Life & Modern World
-            Topic::Food => "Food & Cuisine",
-            Topic::Language => "Language & Linguistics",
-            Topic::Transportation => "Transportation",
-            Topic::Inventions => "Inventions & Innovation",
-            Topic::Fashion => "Fashion & Style",
+            // Modern Era
+            Topic::Industrial => "Industrial",
+            Topic::NineteenthCentury => "19th Century",
+            Topic::WorldWarOne => "World War I",
+            Topic::InterwarPeriod => "Interwar Period",
+            Topic::WorldWarTwo => "World War II",
+            Topic::ColdWar => "Cold War",
+            Topic::Contemporary => "Contemporary",
         };
         write!(f, "{}", name)
     }

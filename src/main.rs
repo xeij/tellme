@@ -8,12 +8,28 @@ use tellme::{
     database::Database,
     ui::{handle_events, init_terminal, render_ui, restore_terminal, App},
     UserInteraction, DB_FILE,
+    auto_update::UpdateChecker,
 };
 
 /// Main application entry point
 /// This demonstrates Rust's main function and async/await patterns
 #[tokio::main]
 async fn main() -> Result<()> {
+    println!("🏛️  tellme - Fascinating History from All Ages");
+    println!("==========================================");
+    
+    // Check for updates from GitHub (quick timeout)
+    println!("Checking for updates...");
+    let update_checker = UpdateChecker::new();
+    if let Some(update_info) = update_checker.quick_update_check().await {
+        println!("\n{}\n", update_info.display_notification());
+        
+        // Wait for user to acknowledge update notification
+        println!("Press Enter to continue...");
+        let mut input = String::new();
+        std::io::stdin().read_line(&mut input).ok();
+    }
+    
     // Initialize data directory and database
     tellme::ensure_data_dir()?;
     

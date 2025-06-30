@@ -1,248 +1,160 @@
-# tellme by Xeij- A terminal cool reads explorer
+# tellme - Fascinating History from All Ages ️
 
-A Rust terminal application that displays fascinating content from Wikipedia with a typewriter effect. Discover knowledge across **30+ diverse topics** with **5000+ content units** - the ultimate learning companion!
+A terminal application that displays engaging historical content with a typewriter effect, covering fascinating stories from **all time periods** - from Prehistoric times to the Contemporary era.
 
 ## Features
 
-**30+ Diverse Topics**: Facts, History, Philosophy, Mysteries, Conspiracies, Science, Traditions, Crimes, Civilizations, Psychology, Technology, Medicine, Space, Mathematics, Art, Music, Literature, Film, Architecture, Animals, Biology, Geography, Environment, Weather, Religion, Mythology, Politics, Economics, Sports, Food, Language, Transportation, Inventions, Fashion
+- ️ **21 Historical Periods**: From Prehistoric times through Ancient civilizations to modern Contemporary history
+-  **Auto-Update System**: Automatically checks GitHub for new releases on startup
+-  **Quality Content Filtering**: Sophisticated scoring system that prioritizes fascinating, engaging historical stories over boring encyclopedia entries
+-  **Typewriter Effect**: Beautiful animated text display that makes reading more engaging
+-  **Smart Recommendations**: AI-powered system that learns your preferences and recommends content you'll find interesting
+-  **SQLite Database**: Efficiently stores and manages historical content with user interaction tracking
+-  **Intelligent Content Processing**: Filters Wikipedia articles to extract the most compelling historical facts, stories, and discoveries
 
-**Typewriter Effect**: Content appears character by character with a smooth typing animation
+## Historical Periods Covered
 
-**Smart Recommendations**: Machine learning-like preference tracking that improves content suggestions based on your reading habits
+### Prehistoric & Ancient Times
+- **Prehistoric** (Before written history) - Amazing discoveries, cave paintings, ancient human achievements
+- **Ancient Egypt** (3100-30 BCE) - Pharaoh secrets, pyramid mysteries, incredible discoveries
+- **Ancient Greece** (800-146 BCE) - Philosopher secrets, Olympic origins, incredible inventions
+- **Ancient Rome** (753 BCE-476/1453 CE) - Emperor secrets, gladiator stories, engineering marvels
+- **Ancient China** (2070 BCE-220 CE) - Dynasty secrets, Great Wall mysteries, incredible inventions
 
-**Persistent Storage**: SQLite database stores content and user interactions locally
+### Classical & Post-Classical Era
+- **Byzantine** (330-1453 CE) - Emperor secrets, Constantinople mysteries, incredible treasures
+- **Medieval** (500-1500 CE) - King secrets, knight stories, incredible inventions
+- **Viking** (793-1066 CE) - Warrior secrets, exploration adventures, incredible discoveries
+- **Islamic** (610-1258 CE) - Empire secrets, scientific discoveries, architectural wonders
+- **Mongol** (1206-1368 CE) - Empire secrets, Genghis Khan stories, incredible conquests
 
-**Minimal TUI**: Clean black background with white text and horizontal separators
+### Early Modern Period
+- **Renaissance** (1300-1600 CE) - Artist secrets, incredible inventions, amazing discoveries
+- **Age of Exploration** (1400-1600 CE) - Explorer secrets, navigation innovations, incredible adventures
+- **Colonial** (1492-1800 CE) - Colonial secrets, amazing discoveries, incredible adventures
+- **Enlightenment** (1685-1815 CE) - Philosopher secrets, revolutionary ideas, incredible breakthroughs
 
-**Performance Tracking**: Monitors reading time and skip patterns to optimize future content delivery
+### Modern Era
+- **Industrial** (1760-1840 CE) - Revolutionary secrets, amazing inventions, incredible innovations
+- **19th Century** (1801-1900 CE) - Century secrets, amazing inventions, incredible discoveries
+- **World War I** (1914-1918 CE) - War secrets, heroic stories, incredible technology
+- **Interwar Period** (1918-1939 CE) - Era secrets, 1920s discoveries, incredible culture
+- **World War II** (1939-1945 CE) - War secrets, heroic stories, incredible operations
+- **Cold War** (1947-1991 CE) - Espionage secrets, amazing technology, incredible mysteries
+- **Contemporary** (1991-present) - Modern secrets, recent discoveries, incredible innovations
 
+## Content Quality System
 
-This is a **knowledge universe** with:
+The app uses a sophisticated content scoring system that prioritizes:
 
-- **30+ Topic Categories**: From Ancient Civilizations to Modern Technology
-- **5000+ Content Units**: Massive variety across all topics  
-- **25+ Search Queries per Topic**: Specific, curated content for maximum interest
-- **Intelligent Content Processing**: Optimized for 1-2 paragraph digestible units
-- **Zero Repetition**: Vast content pool means fresh discoveries every session
+### High-Quality Content (Prioritized)
+- **Discoveries & Mysteries**: Hidden secrets, shocking revelations, amazing discoveries
+- **Drama & Intrigue**: Betrayals, conspiracies, scandals, assassinations, rebellions
+- **Human Interest**: Heroic stories, survival tales, adventures, legends, romances
+- **Unusual & Bizarre**: Strange events, unique achievements, rare occurrences
+- **Innovation & Achievement**: Brilliant inventions, revolutionary breakthroughs, triumphs
+- **Superlatives**: Record-breaking events, greatest achievements, most famous figures
 
-## Quick Start
+###  Low-Quality Content (Filtered Out)
+- Boring encyclopedia entries and dry academic text
+- List articles and disambiguation pages
+- Technical documentation without engaging stories
+- Reference sections and citation-heavy content
 
-### 1. Install Rust
+## Installation
 
-If you don't have Rust installed:
+### Prerequisites
+- Rust (install from [rustup.rs](https://rustup.rs))
+
+### Quick Install (Recommended)
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source ~/.cargo/env
+# Clone the repository
+git clone https://github.com/xeij/tellme.git
+cd tellme
+
+# Install globally (adds to your PATH)
+cargo install --path .
+
+# Now you can run from anywhere
+tellme
 ```
 
-### 2. Clone and Build
-
+### Manual Build
 ```bash
-git clone <your-repo-url>
+# Clone and build
+git clone https://github.com/xeij/tellme.git
 cd tellme
 cargo build --release
+
+# Run directly
+./target/release/tellme
 ```
 
-### 3. Fetch Content 
+## Usage
 
-**WARNING**: The 10x expansion will download **5000+ Wikipedia articles**. This will take **30-60 minutes** and require a stable internet connection.
-
-```bash
-cargo run --bin fetch_data
-```
-
-This massive operation will:
-- Create a `tellme_data/` directory
-- Download content from Wikipedia's API across 30+ topics
-- Process articles into 1-2 paragraph units
-- Store everything in a local SQLite database
-- Take 30-60 minutes to complete (be patient!)
-- Result in ~50-100MB database with 5000+ content units
-
-### 4. Run the App
-
-```bash
-cargo run --bin tellme
-```
-
-##  **Content Breakdown by Category**
-
-| Category | Topics | Example Content |
-|----------|--------|-----------------|
-| ** Science & Tech** | Technology, Medicine, Space, Mathematics, Science | AI, Quantum Mechanics, Mars Missions, DNA Discovery |
-| ** Arts & Culture** | Art, Music, Literature, Film, Architecture | Renaissance Art, Classical Music, Shakespeare, Hollywood |
-| ** Nature & Life** | Animals, Biology, Geography, Environment, Weather | Wildlife, Evolution, Natural Disasters, Climate Change |
-| ** Human Society** | Religion, Mythology, Politics, Economics, Sports | World Religions, Greek Myths, Democracy, Olympic Games |
-| ** Knowledge & History** | Facts, History, Philosophy, Mysteries, Civilizations | World Wars, Ancient Rome, Unsolved Mysteries, Philosophy |
-| ** Daily Life** | Food, Language, Transportation, Inventions, Fashion | World Cuisines, Linguistics, Aviation, Innovation |
-
-## Making `tellme` Globally Executable
-
-### Option 1: Install with Cargo
-
-```bash
-cargo install --path .
-```
-
-Now you can run `tellme` from anywhere in your terminal!
-
-### Option 2: Manual Installation (Linux/macOS)
-
-```bash
-# Build the release binary
-cargo build --release
-
-# Copy to a directory in your PATH
-sudo cp target/release/tellme /usr/local/bin/
-
-# Make it executable
-sudo chmod +x /usr/local/bin/tellme
-```
-
-### Option 3: Windows
-
-```powershell
-# Build the release binary
-cargo build --release
-
-# Copy to a directory in your PATH (adjust path as needed)
-copy target\release\tellme.exe C:\Windows\System32\
-```
-
-Or add the `target/release` directory to your Windows PATH environment variable.
-
-## How to Use
+### First Time Setup
+1. **Install the app** (see installation above)
+2. **Fetch historical content**:
+   ```bash
+   fetch_data
+   ```
+   This downloads ~525 fascinating historical content units (25 per historical period)
+   
+3. **Run the app**:
+   ```bash
+   tellme
+   ```
 
 ### Controls
+- **Space/Enter**: Skip to next content
+- **Escape/Q**: Quit application
+- **Auto-advance**: Content automatically advances when fully displayed
 
-- **Right Arrow (→)**: Skip typewriter animation or proceed to next content
-- **Space/Enter**: Same as right arrow
-- **Q or Esc**: Quit the application
+### Content Database
+- **Size**: ~525 high-quality historical content units
+- **Storage**: ~15-25MB SQLite database
+- **Quality**: Advanced filtering ensures only engaging, fascinating content
+- **Coverage**: Balanced across all 21 historical periods
 
-### Reading Flow
+## How It Works
 
-1. Content appears with a typewriter effect
-2. Read at your own pace or skip the animation
-3. Press right arrow when ready for new content
-4. The app learns your preferences across 30+ topics
-5. Enjoy discovering new knowledge from 5000+ units!
+### Smart Content Selection
+The app uses machine learning-style recommendation system:
+1. **Quality Filtering**: Only processes high-scoring content with engaging keywords
+2. **User Learning**: Tracks what you read vs skip to learn your preferences  
+3. **Balanced Discovery**: Ensures variety while respecting your interests
+4. **Historical Balance**: Provides content from all time periods
 
-##  **Advanced Learning Features**
+### Content Processing Pipeline
+1. **Wikipedia Search**: Targets fascinating historical topics with engaging search terms
+2. **Quality Scoring**: Each article gets scored for engagement, drama, and interest level
+3. **Content Extraction**: Extracts the most compelling paragraphs and stories
+4. **Length Optimization**: Ensures perfect reading length (30-800 words)
+5. **Database Storage**: Saves processed content with metadata and user interaction tracking
 
-### Smart Content Recommendation
-- Tracks reading vs. skipping for each of 30+ topics
-- Builds preference profile across diverse subject areas
-- Recommends content from your favorite topic clusters
-- Adapts to your learning style and interests
-
-### Massive Content Variety
-- **150 units per topic** = 4500+ total content units
-- **25+ search queries per topic** for maximum diversity
-- **Intelligent content filtering** for optimal reading length
-- **No repetition** - vast content pool ensures freshness
+### Auto-Update System
+- Checks GitHub releases on startup (5-second timeout)
+- Notifies you of available updates with download instructions
+- Non-intrusive - continues if update check fails
 
 ## Project Structure
 
 ```
 tellme/
-├── Cargo.toml          # Dependencies and project configuration
-├── README.md           # This file
-├── run_tellme.bat      # Windows helper script
-├── run_fetch_data.bat  # Windows data fetcher script
 ├── src/
-│   ├── main.rs         # Main TUI application
-│   ├── lib.rs          # Shared library code
-│   ├── database.rs     # SQLite operations (handles 5000+ units)
-│   ├── content.rs      # 30+ topic definitions and search queries
-│   ├── ui.rs           # Terminal UI components
+│   ├── main.rs           # Main TUI application with auto-update
+│   ├── lib.rs            # Library definitions and exports
+│   ├── content.rs        # Historical periods and content structures
+│   ├── database.rs       # SQLite operations and smart recommendations
+│   ├── ui.rs             # Terminal UI and typewriter effects
+│   ├── auto_update.rs    # GitHub release checking
 │   └── bin/
-│       └── fetch_data.rs   # Wikipedia content fetcher (10x expansion)
-└── tellme_data/        # Created by fetch_data
-    └── tellme.db       # Massive SQLite database (50-100MB)
+│       └── fetch_data.rs # Wikipedia content fetcher with quality filtering
+├── tellme_data/          # Database storage directory
+└── Cargo.toml           # Dependencies and project configuration
 ```
-
-
-### 1. Ownership and Borrowing
-- **Ownership**: See how `ContentUnit` owns its `String` fields across 5000+ units
-- **Borrowing**: Notice `&self` vs `&mut self` in method signatures
-- **Move semantics**: Content is moved when setting new content in the app
-
-### 2. Error Handling
-- **Result type**: Every fallible operation returns `Result<T, E>`
-- **? operator**: Used extensively for error propagation
-- **anyhow crate**: Provides convenient error handling
-
-### 3. Pattern Matching
-- **match expressions**: Used extensively for 30+ topic handling
-- **if let**: For optional value extraction
-- **matches! macro**: For checking enum variants
-
-### 4. Async Programming
-- **async/await**: The data fetcher uses async HTTP requests for 5000+ articles
-- **tokio runtime**: Handles async execution
-- **Rate limiting**: Demonstrates async delays across massive content fetch
-
-### 5. Database Operations
-- **SQLite integration**: Handles 5000+ content units efficiently
-- **Query optimization**: Indexes and efficient retrieval
-- **Data persistence**: User preferences across 30+ topics
-
-## Performance Considerations
-
-- **Massive Scale**: Optimized for 5000+ content units
-- **Rate Limiting**: 500ms delay between Wikipedia requests (respectful)
-- **Batch Processing**: Multiple content units per article
-- **Efficient Queries**: Database indexes on topic field for fast retrieval
-- **Memory Management**: Lazy loading prevents memory bloat
-- **Concurrent Processing**: Async operations for faster data fetching
-
-## **Expected Database Size**
-
-- **Content Units**: 4500+ units across 30+ topics
-- **Database Size**: 50-100MB SQLite file
-- **Fetch Time**: 30-60 minutes for complete database
-- **Articles Processed**: 1000+ unique Wikipedia articles
-- **Search Queries**: 750+ different search terms used
-
-## Troubleshooting
-
-### "No content found in database"
-Run the data fetcher first: `cargo run --bin fetch_data`
-**Note**: This will take 30-60 minutes for the full 10x expansion!
-
-### Network errors during fetch
-- Check internet connection
-- Wikipedia might be temporarily unavailable
-- The fetcher includes automatic retries
-- Consider running overnight for the massive fetch
-
-### Large database size
-- The 10x expansion creates a 50-100MB database
-- This is normal for 5000+ content units
-- Ensure you have adequate disk space
-
-### Compilation errors
-- Ensure you have the latest Rust version: `rustup update`
-- Clear cargo cache: `cargo clean`
-
-## Contributing
-
-Feel free to:
-
-- Add new topics to the 30+ topic enum
-- Improve the content processing algorithm for even more variety
-- Enhance the UI with more visual elements
-- Add keyboard shortcuts
-- Implement export features for the massive content database
-
-## Acknowledgments
-
-- Wikipedia for providing free access to human knowledge
-- The Rust community for excellent crates and documentation
-- Terminal UI inspiration from various TUI applications
 
 ---
 
-**Ready to explore 5000+ fascinating knowledge units?** 
+*"Those who cannot remember the past are condemned to repeat it." - George Santayana*
 
-Happy learning with Rust and the massively expanded tellme! Start with `cargo run --bin fetch_data`

@@ -1,9 +1,9 @@
 [package]
 name = "tellme"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
-description = "A terminal app that displays interesting Wikipedia content with a typewriter effect"
-authors = ["Your Name <your.email@example.com>"]
+description = "History archive"
+authors = ["Shaya Arya"]
 
 # Main binary for the TUI app
 [[bin]]
@@ -38,4 +38,5 @@ chrono = { version = "0.4", features = ["serde"] }
 urlencoding = "2.1"
 
 # Async runtime helpers
-futures = "0.3" 
+futures = "0.3"
+semver = "1.0" 

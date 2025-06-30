@@ -103,7 +103,7 @@ impl WikipediaClient {
 }
 
 /// Process article content into suitable units
-/// This demonstrates text processing and content validation
+/// This demonstrates text processing and content validation with QUALITY SCORING
 fn process_article_content(
     topic: Topic,
     title: &str,
@@ -111,6 +111,14 @@ fn process_article_content(
     source_url: &str,
 ) -> Vec<ContentUnit> {
     let mut units = Vec::new();
+    
+    // First, check content quality score
+    let quality_score = calculate_content_quality_score(content, title);
+    
+    // Only process decent quality, engaging content (score > 0, lowered from 3)
+    if quality_score < 0 {
+        return units; // Skip truly boring content
+    }
     
     // First, try to use the full content if it's not too long
     if content.len() > 100 && content.len() < 3000 {
@@ -149,6 +157,13 @@ fn process_article_content(
             j += 1;
         }
         
+        // Check quality of this specific unit content
+        let unit_quality = calculate_content_quality_score(&unit_content, title);
+        if unit_quality < -1 {
+            i = if j > i + 1 { j } else { i + 1 };
+            continue; // Skip very low-quality sections
+        }
+        
         let mut content_unit = ContentUnit::new(
             topic,
             title.to_string(),
@@ -167,6 +182,100 @@ fn process_article_content(
     }
     
     units
+}
+
+/// Calculate content quality score based on engaging keywords and patterns
+/// Higher scores = more interesting, engaging content
+fn calculate_content_quality_score(content: &str, title: &str) -> i32 {
+    let content_lower = content.to_lowercase();
+    let title_lower = title.to_lowercase();
+    let combined = format!("{} {}", title_lower, content_lower);
+    
+    let mut score = 0;
+    
+    // BASE SCORE for any historical content (be more generous)
+    if content.len() > 50 {
+        score += 1; // Base point for having actual content
+    }
+    
+    // POSITIVE INDICATORS - Fascinating, engaging content
+    let fascinating_words = [
+        // Discovery & Mystery
+        "discovered", "mystery", "secret", "hidden", "revealed", "uncovered", "found",
+        "breakthrough", "revelation", "shocking", "amazing", "incredible", "extraordinary",
+        
+        // Drama & Intrigue  
+        "betrayal", "conspiracy", "scandal", "plot", "intrigue", "assassination", "murder",
+        "rebellion", "revolution", "war", "battle", "siege", "conquest", "victory", "defeat",
+        
+        // Human Interest
+        "heroic", "courage", "brave", "survival", "escape", "rescue", "adventure",
+        "legend", "myth", "story", "tale", "epic", "dramatic", "tragic", "romance",
+        
+        // Unusual & Bizarre
+        "strange", "bizarre", "unusual", "weird", "odd", "peculiar", "unique", "rare",
+        "first", "last", "only", "never", "always", "forbidden", "lost", "ancient",
+        
+        // Innovation & Achievement
+        "invented", "created", "built", "achieved", "accomplished", "succeeded", "triumph",
+        "genius", "brilliant", "innovative", "revolutionary", "groundbreaking",
+        
+        // Superlatives & Records
+        "largest", "smallest", "fastest", "strongest", "richest", "most", "greatest",
+        "best", "worst", "famous", "notorious", "legendary", "record", "unprecedented"
+    ];
+    
+    for word in &fascinating_words {
+        if combined.contains(word) {
+            score += 1;
+        }
+    }
+    
+    // BONUS for multiple engaging elements
+    if combined.contains("emperor") || combined.contains("king") || combined.contains("queen") {
+        score += 1;
+    }
+    if combined.contains("treasure") || combined.contains("gold") || combined.contains("wealth") {
+        score += 1;
+    }
+    if combined.contains("died") || combined.contains("killed") || combined.contains("death") {
+        score += 1;
+    }
+    if combined.contains("empire") || combined.contains("kingdom") || combined.contains("civilization") {
+        score += 1;
+    }
+    
+    // BONUS for historical periods and dates
+    if content.contains("BCE") || content.contains("CE") || content.contains("century") || content.contains("AD") {
+        score += 2; // Historical content gets bonus points
+    }
+    
+    // BONUS for people and places (historical names)
+    if combined.contains("dynasty") || combined.contains("pharaoh") || combined.contains("caesar") {
+        score += 1;
+    }
+    
+    // NEGATIVE INDICATORS - Boring, dry content (less harsh)
+    let boring_indicators = [
+        "list of", "disambiguation", "stub", "citation needed",
+        "clarification needed", "template", "infobox", "navbox"
+    ];
+    
+    for indicator in &boring_indicators {
+        if combined.contains(indicator) {
+            score -= 3; // Still penalize but less harshly
+        }
+    }
+    
+    // MILD penalty for overly technical language
+    let technical_words = ["according to", "it is believed", "scholars suggest"];
+    for word in &technical_words {
+        if combined.contains(word) {
+            score -= 1;
+        }
+    }
+    
+    score
 }
 
 /// Fetch content for a specific topic
@@ -271,9 +380,9 @@ async fn main() -> Result<()> {
     // Create Wikipedia client
     let client = WikipediaClient::new();
     
-    // Target number of units per topic (MASSIVE INCREASE for 10x expansion!)
-    // With 30+ topics, this will give us 5000+ total units (10x the original goal)
-    let units_per_topic = 150; // 30 topics × 150 units = 4500+ total units
+    // Target number of units per topic (REDUCED for focused historical content!)
+    // With 21 historical periods, this will give us ~525 total units (quality over quantity)
+    let units_per_topic = 25; // 21 topics × 25 units = ~525 total units
     let mut total_fetched = 0;
     
     // Fetch content for each topic
@@ -312,4 +421,4 @@ async fn main() -> Result<()> {
     println!("cargo run --bin tellme");
     
     Ok(())
-} 
+}
