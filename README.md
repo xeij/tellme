@@ -1,6 +1,6 @@
 # tellme - Fascinating History from All Ages ️
 
-A terminal application that displays engaging historical content with a typewriter effect, covering fascinating stories from **all time periods** - from Prehistoric times to the Contemporary era.
+A terminal application that displays engaging historical content from Prehistoric times to the Contemporary era.
 
 ## Features
 

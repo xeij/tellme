@@ -2,7 +2,7 @@
 name = "tellme"
 version = "0.2.0"
 edition = "2021"
-description = "History archive"
+description = "History Archive"
 authors = ["Shaya Arya"]
 
 # Main binary for the TUI app
