@@ -2,7 +2,8 @@
 // This module demonstrates Rust's error handling, SQL operations,
 // and working with external crates like rusqlite
 
-use crate::{ContentUnit, Topic, UserInteraction, Result};
+use crate::{ContentUnit, Topic, UserInteraction};
+use anyhow::Result;
 use rusqlite::{params, Connection, Row, OptionalExtension};
 use std::collections::HashMap;
 
