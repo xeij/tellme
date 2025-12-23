@@ -33,29 +33,20 @@ const elements = {
 };
 
 // ============================================
-// API FUNCTIONS
+// API FUNCTIONS - Using Tauri Commands
 // ============================================
 
 async function fetchRandomContent() {
-    const response = await fetch('/api/content/random');
-    if (!response.ok) {
-        throw new Error(`Failed to fetch content: ${response.statusText}`);
-    }
-    return await response.json();
+    // Use Tauri's invoke instead of fetch
+    return await window.__TAURI__.invoke('get_random_content');
 }
 
 async function recordInteraction(contentId, fullyRead, readingTimeSeconds) {
     try {
-        await fetch(`/api/content/${contentId}/interaction`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                content_id: contentId,
-                fully_read: fullyRead,
-                reading_time_seconds: readingTimeSeconds,
-            }),
+        await window.__TAURI__.invoke('record_interaction', {
+            content_id: contentId,
+            fully_read: fullyRead,
+            reading_time_seconds: readingTimeSeconds,
         });
     } catch (error) {
         console.error('Failed to record interaction:', error);
@@ -64,8 +55,7 @@ async function recordInteraction(contentId, fullyRead, readingTimeSeconds) {
 
 async function fetchStats() {
     try {
-        const response = await fetch('/api/stats');
-        const stats = await response.json();
+        const stats = await window.__TAURI__.invoke('get_stats');
         elements.statsContent.textContent = `📚 ${stats.total_content} historical stories available`;
     } catch (error) {
         console.error('Failed to fetch stats:', error);
@@ -84,15 +74,15 @@ function startTypewriter(text) {
     elements.cursor.classList.remove('hidden');
     elements.skipBtn.classList.remove('hidden');
     elements.nextBtn.classList.add('hidden');
-    
+
     // Adaptive typing speed based on content length
     const speed = text.length > 1000 ? 15 : text.length > 500 ? 25 : 35;
-    
+
     typewriterInterval = setInterval(() => {
         if (currentCharIndex < text.length) {
             elements.typewriterText.textContent += text[currentCharIndex];
             currentCharIndex++;
-            
+
             // Update progress bar
             const progress = (currentCharIndex / text.length) * 100;
             elements.readingProgress.style.width = `${progress}%`;
@@ -104,7 +94,7 @@ function startTypewriter(text) {
 
 function skipTypewriter() {
     if (!isTyping || !currentContent) return;
-    
+
     clearInterval(typewriterInterval);
     elements.typewriterText.textContent = currentContent.content;
     elements.readingProgress.style.width = '100%';
@@ -117,7 +107,7 @@ function finishTypewriter(fullyAnimated) {
     elements.cursor.classList.add('hidden');
     elements.skipBtn.classList.add('hidden');
     elements.nextBtn.classList.remove('hidden');
-    
+
     // Record interaction if fully animated
     if (fullyAnimated && currentContent) {
         const readingTime = Math.floor((Date.now() - startTime) / 1000);
@@ -136,17 +126,17 @@ async function loadNewContent() {
             const readingTime = Math.floor((Date.now() - startTime) / 1000);
             await recordInteraction(currentContent.id, false, readingTime);
         }
-        
+
         // Show loading state
         showLoading();
-        
+
         // Fetch new content
         currentContent = await fetchRandomContent();
         startTime = Date.now();
-        
+
         // Display content
         displayContent(currentContent);
-        
+
     } catch (error) {
         showError(error.message);
     }
@@ -157,12 +147,12 @@ function displayContent(content) {
     elements.periodBadge.textContent = content.topic;
     elements.wordCount.textContent = `${content.word_count} words`;
     elements.contentTitle.textContent = content.title;
-    
+
     // Show content display
     elements.loading.classList.add('hidden');
     elements.errorDisplay.classList.add('hidden');
     elements.contentDisplay.classList.remove('hidden');
-    
+
     // Start typewriter animation
     startTypewriter(content.content);
 }
@@ -227,7 +217,7 @@ document.addEventListener('keydown', (e) => {
 async function init() {
     // Fetch stats
     await fetchStats();
-    
+
     // Load first content
     await loadNewContent();
 }

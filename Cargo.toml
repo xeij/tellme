@@ -15,11 +15,6 @@ path = "src/main.rs"
 name = "fetch_data"
 path = "src/bin/fetch_data.rs"
 
-# Web server binary
-[[bin]]
-name = "tellme-web"
-path = "src/bin/tellme_web.rs"
-
 [dependencies]
 # TUI and terminal handling
 ratatui = "0.24"
@@ -46,7 +41,9 @@ urlencoding = "2.1"
 futures = "0.3"
 semver = "1.0"
 
-# Web server dependencies
-axum = "0.7"
-tower = "0.4"
-tower-http = { version = "0.5", features = ["fs", "cors"] }
+# Tauri dependencies for desktop GUI
+tauri = { version = "1.6", features = ["shell-open"] }
+tauri-build = "1.5"
+
+[build-dependencies]
+tauri-build = "1.5"
