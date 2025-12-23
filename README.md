@@ -1,17 +1,18 @@
-# tellme - Fascinating History from All Ages ️
+# tellme -  History from All Ages ️
 
 A terminal application that displays engaging historical content from Prehistoric times to the Contemporary era.
 
 ## Features
 
-- 🏛️ **21 Historical Periods**: From Prehistoric times through Ancient civilizations to modern Contemporary history
-- 🌐 **Dual Interface**: Choose between terminal or modern web interface
-- 🔄 **Auto-Update System**: Automatically checks GitHub for new releases on startup
-- ⭐ **Quality Content Filtering**: Sophisticated scoring system that prioritizes fascinating, engaging historical stories over boring encyclopedia entries
-- ⌨️ **Typewriter Effect**: Beautiful animated text display that makes reading more engaging
-- 🎯 **Smart Recommendations**: AI-powered system that learns your preferences and recommends content you'll find interesting
-- 💾 **SQLite Database**: Efficiently stores and manages historical content with user interaction tracking
-- 🔍 **Intelligent Content Processing**: Filters Wikipedia articles to extract the most compelling historical facts, stories, and discoveries
+- ️ **21 Historical Periods**: From Prehistoric times through Ancient civilizations to modern Contemporary history
+- ️ **Dual Interface**: Choose between terminal or native desktop GUI application
+-  **Auto-Update System**: Automatically checks GitHub for new releases on startup
+-  **Quality Content Filtering**: Sophisticated scoring system that prioritizes fascinating, engaging historical stories over boring encyclopedia entries
+- ️ **Typewriter Effect**: Beautiful animated text display that makes reading more engaging
+-  **Smart Recommendations**: AI-powered system that learns your preferences and recommends content you'll find interesting
+- **SQLite Database**: Efficiently stores and manages historical content with user interaction tracking
+-  **Intelligent Content Processing**: Filters Wikipedia articles to extract the most compelling historical facts, stories, and discoveries
+-  **Cross-Platform**: Desktop GUI works on Windows, Linux, and macOS
 
 ## Historical Periods Covered
 
@@ -106,37 +107,36 @@ cargo build --release
    tellme
    ```
 
-### Web Interface (NEW! 🌐)
+### Desktop GUI
 
-For a modern web-based experience with premium UI:
+For a modern desktop application with premium UI:
 
-1. **Start the web server**:
+1. **Navigate to Tauri directory**:
    ```bash
-   cargo run --bin tellme-web
-   # Or if installed globally:
-   tellme-web
+   cd src-tauri
    ```
 
-2. **Open your browser**:
-   Navigate to `http://localhost:3000`
+2. **Build and run** (development mode):
+   ```bash
+   cargo build
+   cargo run
+   ```
+   
+   **Note**: If you encounter file lock errors on Windows, try:
+   ```bash
+   cargo build -j 1  # Build with single thread
+   ```
 
-3. **Enjoy the experience**:
-   - Beautiful dark theme with glassmorphism effects
-   - Smooth typewriter animations
-   - Keyboard shortcuts (Space/Enter for next, Esc to skip)
-   - Progress tracking and statistics
+3. **Build production executable**:
+   ```bash
+   cargo build --release
+   ```
+   The executable will be in `target/release/tellme-gui.exe` (Windows) or equivalent for your platform.
 
-### Terminal vs Web Interface
-
-| Feature | Terminal | Web |
-|---------|----------|-----|
-| Typewriter Effect | ✅ | ✅ |
-| Dark Theme | ✅ | ✅ Premium |
-| Keyboard Shortcuts | ✅ | ✅ |
-| Visual Animations | Basic | Advanced |
-| Accessibility | High | High |
-| Resource Usage | Minimal | Light |
-
+4. **Cross-Platform Support**:
+   - **Windows**: Builds `.exe` executable
+   - **Linux**: Builds native Linux binary
+   - **macOS**: Builds `.app` bundle
 
 ### Controls
 - **Space/Enter**: Skip to next content
@@ -169,30 +169,6 @@ The app uses machine learning-style recommendation system:
 - Checks GitHub releases on startup (5-second timeout)
 - Notifies you of available updates with download instructions
 - Non-intrusive - continues if update check fails
-
-## Project Structure
-
-```
-tellme/
-├── src/
-│   ├── main.rs           # Main TUI application with auto-update
-│   ├── lib.rs            # Library definitions and exports
-│   ├── content.rs        # Historical periods and content structures
-│   ├── database.rs       # SQLite operations and smart recommendations
-│   ├── ui.rs             # Terminal UI and typewriter effects
-│   ├── auto_update.rs    # GitHub release checking
-│   └── bin/
-│       ├── fetch_data.rs # Wikipedia content fetcher with quality filtering
-│       └── tellme_web.rs # Web server for browser-based interface
-├── static/               # Web UI files
-│   ├── index.html        # Main web interface
-│   ├── styles.css        # Premium dark theme styling
-│   └── app.js            # Frontend logic and typewriter effect
-├── tellme_data/          # Database storage directory
-└── Cargo.toml           # Dependencies and project configuration
-```
-
----
 
 *"Those who cannot remember the past are condemned to repeat it." - George Santayana*
 

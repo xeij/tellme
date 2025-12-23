@@ -15,6 +15,11 @@ path = "src/main.rs"
 name = "fetch_data"
 path = "src/bin/fetch_data.rs"
 
+# Minimal GUI binary
+[[bin]]
+name = "tellme-gui"
+path = "src/bin/tellme_gui.rs"
+
 [dependencies]
 # TUI and terminal handling
 ratatui = "0.24"
@@ -40,6 +45,10 @@ urlencoding = "2.1"
 # Async runtime helpers
 futures = "0.3"
 semver = "1.0"
+
+# Minimal GUI dependencies
+eframe = "0.27"
+egui = "0.27"
 
 # Tauri dependencies for desktop GUI
 tauri = { version = "1.6", features = ["shell-open"] }
