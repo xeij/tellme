@@ -73,55 +73,71 @@ impl eframe::App for TellMeApp {
             ..egui::Visuals::dark()
         });
 
+        // Handle keyboard input
+        if ctx.input(|i| i.key_pressed(egui::Key::ArrowRight) || i.key_pressed(egui::Key::ArrowDown)) {
+            self.load_next_content();
+        }
+        if ctx.input(|i| i.key_pressed(egui::Key::Escape)) {
+            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+        }
+
         egui::CentralPanel::default()
             .frame(egui::Frame::none().fill(egui::Color32::BLACK))
             .show(ctx, |ui| {
-                ui.vertical_centered(|ui| {
-                    ui.add_space(20.0);
-                    
-                    // Title
-                    ui.heading(egui::RichText::new("tellme - History").color(egui::Color32::WHITE).size(24.0));
-                    
-                    ui.add_space(20.0);
-                    ui.separator();
-                    ui.add_space(20.0);
+                // Main scrollable content area
+                let bottom_height = 60.0;
+                egui::ScrollArea::vertical()
+                    .max_height(ui.available_height() - bottom_height)
+                    .show(ui, |ui| {
+                        ui.vertical_centered(|ui| {
+                            ui.add_space(20.0);
+                            
+                            // Title
+                            ui.heading(egui::RichText::new("tellme - History").color(egui::Color32::WHITE).size(24.0));
+                            
+                            ui.add_space(20.0);
+                            ui.separator();
+                            ui.add_space(20.0);
 
-                    if let Some(ref content) = self.current_content {
-                        // Topic badge
-                        ui.label(egui::RichText::new(format!("📚 {}", content.topic)).color(egui::Color32::LIGHT_GRAY));
+                            if let Some(ref content) = self.current_content {
+                                // Topic badge
+                                ui.label(egui::RichText::new(format!("📚 {}", content.topic)).color(egui::Color32::LIGHT_GRAY));
+                                
+                                ui.add_space(10.0);
+                                
+                                // Content title
+                                ui.label(egui::RichText::new(&content.title).color(egui::Color32::WHITE).size(18.0).strong());
+                                
+                                ui.add_space(15.0);
+                                
+                                // Content text
+                                ui.label(egui::RichText::new(&content.content).color(egui::Color32::WHITE).size(14.0));
+                                
+                                ui.add_space(40.0);
+                            } else {
+                                ui.label(egui::RichText::new("No content available").color(egui::Color32::WHITE));
+                                ui.label(egui::RichText::new("Run: cargo run --bin fetch_data").color(egui::Color32::LIGHT_GRAY));
+                            }
+                        });
+                    });
+
+                // Fixed bottom-right buttons
+                ui.with_layout(egui::Layout::bottom_up(egui::Align::RIGHT), |ui| {
+                    ui.add_space(10.0);
+                    ui.horizontal(|ui| {
+                        if ui.button(egui::RichText::new("Quit").size(16.0)).clicked() {
+                            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+                        }
                         
                         ui.add_space(10.0);
                         
-                        // Content title
-                        ui.label(egui::RichText::new(&content.title).color(egui::Color32::WHITE).size(18.0).strong());
+                        if ui.button(egui::RichText::new("Next →").size(16.0)).clicked() {
+                            self.load_next_content();
+                        }
                         
-                        ui.add_space(15.0);
-                        
-                        // Content text in scrollable area
-                        egui::ScrollArea::vertical()
-                            .max_height(350.0)
-                            .show(ui, |ui| {
-                                ui.label(egui::RichText::new(&content.content).color(egui::Color32::WHITE).size(14.0));
-                            });
-                        
-                        ui.add_space(20.0);
-                        
-                        // Buttons
-                        ui.horizontal(|ui| {
-                            if ui.button(egui::RichText::new("Next Story").size(16.0)).clicked() {
-                                self.load_next_content();
-                            }
-                            
-                            ui.add_space(10.0);
-                            
-                            if ui.button(egui::RichText::new("Quit").size(16.0)).clicked() {
-                                ctx.send_viewport_cmd(egui::ViewportCommand::Close);
-                            }
-                        });
-                    } else {
-                        ui.label(egui::RichText::new("No content available").color(egui::Color32::WHITE));
-                        ui.label(egui::RichText::new("Run: cargo run --bin fetch_data").color(egui::Color32::LIGHT_GRAY));
-                    }
+                        ui.add_space(10.0);
+                    });
+                    ui.add_space(10.0);
                 });
             });
     }
