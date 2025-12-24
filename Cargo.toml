@@ -1,9 +1,10 @@
 [package]
 name = "tellme"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "History Archive"
 authors = ["Shaya Arya"]
+default-run = "tellme-gui"
 
 # Main binary for the TUI app
 [[bin]]
