@@ -24,7 +24,7 @@ fn main() -> Result<(), eframe::Error> {
     eframe::run_native(
         "tellme",
         options,
-        Box::new(|_cc| Box::new(TellMeApp::new(db))),
+        Box::new(|_cc| Ok(Box::new(TellMeApp::new(db)))),
     )
 }
 
@@ -65,7 +65,9 @@ impl TellMeApp {
 }
 
 impl eframe::App for TellMeApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        let ctx = ui.ctx().clone();
+
         // Set dark theme
         ctx.set_visuals(egui::Visuals {
             dark_mode: true,
@@ -82,8 +84,8 @@ impl eframe::App for TellMeApp {
         }
 
         egui::CentralPanel::default()
-            .frame(egui::Frame::none().fill(egui::Color32::BLACK))
-            .show(ctx, |ui| {
+            .frame(egui::Frame::new().fill(egui::Color32::BLACK))
+            .show(ui, |ui| {
                 // Main scrollable content area
                 let bottom_height = 60.0;
                 egui::ScrollArea::vertical()
